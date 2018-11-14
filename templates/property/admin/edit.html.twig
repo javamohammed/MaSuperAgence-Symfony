@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+{% block title %}Editer le bien {% endblock %}
+{% block  body %}
+   
+   {{ include ('property/admin/__Form.html.twig',{form: form, button:'Editer', label : 'Editer le bien' } ) }}
+
+    
+{%  endblock  %}

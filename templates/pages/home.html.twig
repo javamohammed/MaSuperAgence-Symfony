@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+{% block title %}Ag. loremipsum {% endblock %}
+{% block  body %}
+    <div class="jumbotron text-center">
+        <h3>Ag. loremipsum</h3>
+        <p>
+            In this example, the block tags define four blocks that child templates can fill in.
+            All the block tag does is to tell the template engine that a child template may override those portions of the template
+        </p>
+
+    </div>
+    <div class='container'>
+        <h2>Les dérniers biens</h2>
+        <div class='row flex'>
+        {% for property in properties %}
+            <div class='col-3'>
+                <div class='card'>
+                    <div class='card-body'>
+                        <h5 class='card-title'>
+                        <a href="{{ path('property.show',{id: property.id, slug: property.slug} ) }}">{{property.title}}</a>
+                        </h5>
+                        <p class='card-text'>{{ property.city}} ({{property.postalCode}})</p>
+                        <div class='text-primary' style="font-weight: bold; font-size:2rem;">{{property.FormattedPrice}} €</div>
+                    </div>
+                </div>
+            </div>
+         {% endfor %}
+    </div>
+
+
+</div>
+
+{%  endblock  %}
