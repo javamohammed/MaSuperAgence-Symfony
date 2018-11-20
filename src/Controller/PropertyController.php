@@ -6,9 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use App\Entity\Property;
+use App\Entity\PropertySearch;
 use App\Repository\PropertyRepository;
 use Doctrine\Common\Persistence\ObjectManager;
-
+use Symfony\Component\HttpFoundation\Request;
+use Knp\Component\Pager\PaginatorInterface;
 
 class PropertyController extends AbstractController
 {
@@ -21,15 +23,30 @@ class PropertyController extends AbstractController
     /**
      * @Route("/biens", name="property.index")
      */
-    public function index()
+    public function index(PaginatorInterface $paginator,Request $request )
     {
         /*
         $property = $this->repository->findAll();
         $property[0]->setSold(false);
         $this->manager->flush();
         */
-        $properties = $this->repository->findAll();
-        //dump($property);
+        $search = new PropertySearch();
+        $form = $this->createForm(\App\Form\PropertySearchType::class, $search);
+        $form->handleRequest($request);
+
+        
+        $query = $this->repository->findAllVisibleQuery($search);
+
+        $Allproperties = $paginator->paginate(
+        $query, /* query NOT result */
+        $request->query->getInt('page', 1)/*page number*/,
+        12 /*limit per page*/
+        );
+        return $this->render('property/index.html.twig',[
+            'menu_current' => 'properties',
+            'Allproperties' => $Allproperties,
+            'form' => $form->createView()
+        ]);
 
         //
        /*
@@ -53,9 +70,6 @@ class PropertyController extends AbstractController
         $entityManager->flush();
      */ 
 
-        return $this->render('property/index.html.twig',[
-            'menu_current' => 'properties'
-        ]);
     }
      /**
      * @Route("/biens/{slug}-{id}", name="property.show", requirements={"slug": "[a-z0-9\-]*"})
