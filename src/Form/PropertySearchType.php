@@ -8,6 +8,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use \Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use \Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Option;
+
 class PropertySearchType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -27,6 +30,13 @@ class PropertySearchType extends AbstractType
                     'placeholder' => 'Surface Minimal'
                 ]
             ])
+            ->add('options',EntityType::class,[
+                'required' => false,
+                'label' => false,
+                'class' => Option::class,
+                'choice_label' => 'name',
+                'multiple' => true
+                ])
         ;
     }
 

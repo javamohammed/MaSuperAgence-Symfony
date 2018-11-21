@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+{% block title %}Editer l'option {% endblock %}
+{% block  body %}
+   
+   {{ include ('property/admin/option/__Form.html.twig',{form: form, button:'Editer', label : 'Editer l\'option' } ) }}
+
+    
+{%  endblock  %}
+

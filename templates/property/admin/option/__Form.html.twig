@@ -1,0 +1,13 @@
+ <div class="container mt-4">
+        <h3>{{label}}</h3>
+
+        {{ form_start(form) }}
+        <div class="row">
+            <div class="col-md-4">{{ form_row(form.name) }}</div>
+        </div>
+        
+        {{ form_rest(form) }}
+
+        <button type="submit" class="btn btn-primary">{{button}}</button>
+        {{ form_end(form) }}
+    </div>
