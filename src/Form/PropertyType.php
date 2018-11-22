@@ -9,6 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use App\Entity\Option;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 class PropertyType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -29,6 +30,9 @@ class PropertyType extends AbstractType
                 'choice_label' => 'name',
                 'multiple' => true
             ])
+            ->add('imageFile',FileType::class, [
+                'required' => false
+            ] )
             ->add('city')
             ->add('address')
             ->add('postal_code')

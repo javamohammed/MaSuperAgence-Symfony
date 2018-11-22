@@ -7,11 +7,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Cocur\Slugify\Slugify;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PropertyRepository")
  * @UniqueEntity("title")
+ * @Vich\Uploadable
  */
 class Property
 {
@@ -19,6 +21,26 @@ class Property
         0 => 'Electrique',
         1 => 'Gaz'
     ];
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     *
+     * @var string|null
+    */
+    private $imageName;
+
+    /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     * 
+     * @Vich\UploadableField(mapping="property_image", fileNameProperty="imageName")
+     * 
+     * @var File|null
+     * @Assert\Image(
+     * mimeTypes="image/jpeg"
+     * )
+    */
+    private $imageFile;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -302,5 +324,25 @@ class Property
         }
 
         return $this;
+    }
+
+     public function setImageFile(?File $image = null): void
+    {
+        $this->imageFile = $image;
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageName(?string $imageName): void
+    {
+        $this->imageName = $imageName;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
     }
 }
